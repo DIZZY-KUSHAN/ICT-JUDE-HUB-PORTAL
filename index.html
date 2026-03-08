@@ -48,6 +48,19 @@
             margin-bottom: 8px; font-weight: 500; cursor: pointer;
         }
         .nav-link:hover, .nav-link.active { background: rgba(255,255,255,0.1); color: #38bdf8; }
+		/* Phone එකෙන් එන අයට Taskbar එක පේන්න හදන කෝඩ් එක */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100% !important;
+        height: auto !important;
+        position: relative !important;
+        display: block !important;
+    }
+    .nav-link {
+        padding: 15px !important;
+        justify-content: center;
+    }
+}
 
         /* --- Dropdown Styles (අලුතින් එකතු කළා) --- */
         .dropdown-content {
@@ -102,6 +115,8 @@
     </style>
 
 </head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -824,4 +839,5 @@
 
 
 </body>
+
 </html>
