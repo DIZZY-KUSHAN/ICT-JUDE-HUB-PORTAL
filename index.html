@@ -691,6 +691,37 @@
         font-size: 0.85rem;
         color: #95a5a6;
     }
+
+	   /* --- PHONE එකට විතරක් වැඩ කරන කොටස --- */
+@media (max-width: 768px) {
+    /* Sidebar එක උඩට ගන්නවා (Taskbar එකක් වගේ) */
+    .sidebar {
+        width: 100% !important;
+        height: auto !important;
+        position: relative !important;
+        display: flex !important;
+        flex-direction: row !important; /* අයිටම් පේළියට ගන්නවා */
+        overflow-x: auto !important; /* ඇඟිල්ලෙන් එහාට මෙහාට කරන්න පුළුවන් */
+        padding: 10px 0 !important;
+    }
+
+    .sidebar h2 {
+        display: none !important; /* ලොකු අකුරු අයින් කරනවා */
+    }
+
+    .nav-link {
+        margin: 0 5px !important;
+        padding: 8px 12px !important;
+        font-size: 14px !important;
+    }
+
+    /* මැද තියෙන Content එක උඩට තල්ලු නොවී තියාගන්න */
+    .main-content {
+        margin-left: 0 !important;
+        padding-top: 20px !important;
+    }
+}
+
 </style>
 
 <div id="progress-tab" class="tab-content">
@@ -841,3 +872,4 @@
 </body>
 
 </html>
+
