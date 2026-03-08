@@ -39,8 +39,37 @@
         #customAlert { position: fixed; top: 20px; right: 20px; padding: 16px 28px; border-radius: 12px; color: white; font-weight: 600; z-index: 3000; display: none; backdrop-filter: blur(10px); }
 
         /* --- Sidebar --- */
-        .sidebar { width: 280px; background: var(--sidebar-bg); height: 100vh; color: white; position: fixed; padding: 25px; backdrop-filter: blur(20px); z-index: 100; }
-        .sidebar h2 { color: #38bdf8; font-size: 1.5rem; font-weight: 800; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; }
+        ..sidebar {
+    width: 280px;
+    background: var(--sidebar-bg);
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    transition: all 0.3s;
+}
+
+/* මෙන්න මේ කොටස තමයි Phone එකට සයිට් එක ලස්සන කරන්නේ */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100% !important;
+        height: auto !important;
+        position: relative !important;
+        display: flex !important;
+        flex-direction: row !important; /* අයිටම් පේළියට ගන්නවා */
+        overflow-x: auto !important; /* ඇඟිල්ලෙන් එහාට මෙහාට කරන්න පුළුවන් */
+        padding: 5px 0 !important;
+    }
+    
+    .sidebar h2 {
+        display: none !important; /* "ICT JUDE HUB" කියන ලොකු අකුරු Phone එකේදී අයින් කරනවා */
+    }
+
+    .main-content {
+        margin-left: 0 !important; /* සයිඩ් බාර් එක උඩට ගිය නිසා මැද කොටස නිදහස් කරනවා */
+    }
+}
 
         .nav-link { 
             display: flex; align-items: center; color: #94a3b8; padding: 14px 16px; 
@@ -692,35 +721,20 @@
         color: #95a5a6;
     }
 
-	   /* --- PHONE එකට විතරක් වැඩ කරන කොටස --- */
-@media (max-width: 768px) {
-    /* Sidebar එක උඩට ගන්නවා (Taskbar එකක් වගේ) */
+	   @media (max-width: 768px) {
     .sidebar {
         width: 100% !important;
         height: auto !important;
         position: relative !important;
         display: flex !important;
-        flex-direction: row !important; /* අයිටම් පේළියට ගන්නවා */
-        overflow-x: auto !important; /* ඇඟිල්ලෙන් එහාට මෙහාට කරන්න පුළුවන් */
-        padding: 10px 0 !important;
+        flex-direction: row !important;
+        overflow-x: auto !important;
     }
-
-    .sidebar h2 {
-        display: none !important; /* ලොකු අකුරු අයින් කරනවා */
-    }
-
-    .nav-link {
-        margin: 0 5px !important;
-        padding: 8px 12px !important;
-        font-size: 14px !important;
-    }
-
-    /* මැද තියෙන Content එක උඩට තල්ලු නොවී තියාගන්න */
     .main-content {
         margin-left: 0 !important;
-        padding-top: 20px !important;
     }
 }
+
 
 </style>
 
@@ -872,4 +886,5 @@
 </body>
 
 </html>
+
 
