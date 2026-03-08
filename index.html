@@ -108,7 +108,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 <body>
-	<button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+	
 <div id="loader-wrapper">
     <div class="loader-content">
         <img src="https://raw.githubusercontent.com/DIZZY-KUSHAN/ICT-JUDE-HUB-PORTAL/main/logo.png" class="xoyel-logo-anim" alt="XOYEL Logo">
@@ -116,37 +116,8 @@
 </div>
 
 <style>
-/* Mobile Menu Button එකේ පෙනුම */
-.mobile-menu-btn {
-    display: none; /* PC එකේදී පේන්නේ නැහැ */
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 1100;
-    background: #38bdf8;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-size: 20px;
-    cursor: pointer;
-}
 
-@media (max-width: 768px) {
-    .mobile-menu-btn { display: block; } /* Phone එකේදී විතරක් පෙන්වනවා */
-    
-    .sidebar {
-        left: -280px; /* මුලින්ම Sidebar එක හංගනවා */
-        position: fixed;
-        z-index: 1050;
-    }
 
-    .sidebar.active {
-        left: 0; /* Button එක එබුවම Sidebar එක එළියට එනවා */
-    }
-
-    .main-content { margin-left: 0 !important; }
-	</style>
 }
 
 	
@@ -860,17 +831,14 @@
         });
     </script>
 
-<script>
-function toggleMenu() {
-    document.querySelector('.sidebar').classList.toggle('active');
-}
-</script>
+
 
 
 	
 	</body>
 
 </html>
+
 
 
 
