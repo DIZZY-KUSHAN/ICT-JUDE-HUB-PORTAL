@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <title>Paper Viewer | ICT JUDE HUB</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background: #0f172a; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .paper-card { background: #1e293b; padding: 40px; border-radius: 20px; text-align: center; border: 1px solid #334155; width: 350px; }
+        .icon-box { font-size: 80px; color: #00ffc8; margin-bottom: 20px; }
+        .btn-group { display: flex; flex-direction: column; gap: 15px; }
+        .btn { padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-p { border: 2px solid #00ffc8; color: #00ffc8; }
+        .btn-d { background: #00ffc8; color: #0f172a; }
+        h2 { margin-bottom: 30px; }
+    </style>
+</head>
+<body>
+    <div class="paper-card">
+        <div class="icon-box"><i class="fas fa-file-pdf"></i></div>
+        <h2 id="display-year">Loading...</h2>
+        
+        <div class="btn-group">
+            <a id="preview-link" href="#" target="_blank" class="btn btn-p"><i class="fas fa-eye"></i> Preview Paper</a>
+            <a id="download-link" href="#" download class="btn btn-d"><i class="fas fa-download"></i> Download PDF</a>
+        </div>
+        <br>
+        <a href="index.html" style="color: #94a3b8; text-decoration: none; font-size: 14px;">← Back to Home</a>
+    </div>
+
+    <script>
+        // URL එකේ තියෙන අවුරුද්ද කියවා ගැනීම
+        const urlParams = new URLSearchParams(window.location.search);
+        const year = urlParams.get('year');
+
+        if (year) {
+            document.getElementById('display-year').innerText = year + " ICT Past Paper";
+            
+            // PDF එක තියෙන තැන (Path) හදා ගැනීම
+            const pdfPath = "papers/" + year + ".pdf";
+            
+            // ලින්ක් දෙකට අදාළ PDF එක ලබා දීම
+            document.getElementById('preview-link').href = pdfPath;
+            document.getElementById('download-link').href = pdfPath;
+        }
+    </script>
+</body>
+</html>
