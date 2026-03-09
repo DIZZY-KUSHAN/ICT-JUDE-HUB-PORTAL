@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">	
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT Jude Hub | Pro Student Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #dbeafe;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --dark: #0f172a;
+            --slate: #64748b;
+            --light: rgba(255, 255, 255, 0.98);
+            --sidebar-bg: rgba(15, 23, 42, 0.98);
+        }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .reveal { animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+
+
+        body { font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; display: flex; background: #f8fafc; overflow-x: hidden; color: var(--dark); }
+
+
+
+
+        /* --- Background Slider --- */
+        .bg-slider { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .slide { position: absolute; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0; transition: opacity 1.5s; filter: brightness(0.3); }
+        .slide.active { opacity: 1; }
+        
+        /* අර වම් පැත්ත කැපෙන පින්තූරෙට විශේෂ style එක */
+        .slide.crop-left { background-position: left !important; }
+
+        #customAlert { position: fixed; top: 20px; right: 20px; padding: 16px 28px; border-radius: 12px; color: white; font-weight: 600; z-index: 3000; display: none; backdrop-filter: blur(10px); }
+
+        /* --- Sidebar --- */
+        .sidebar { width: 280px; background: var(--sidebar-bg); height: 100vh; color: white; position: fixed; padding: 25px; backdrop-filter: blur(20px); z-index: 100; }
+        .sidebar h2 { color: #38bdf8; font-size: 1.5rem; font-weight: 800; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; }
+
+        .nav-link { 
+            display: flex; align-items: center; color: #94a3b8; padding: 14px 16px; 
+            text-decoration: none; border-radius: 12px; transition: 0.3s; 
+            margin-bottom: 8px; font-weight: 500; cursor: pointer;
+        }
+        .nav-link:hover, .nav-link.active { background: rgba(255,255,255,0.1); color: #38bdf8; }
+
+        /* --- Dropdown Styles (අලුතින් එකතු කළා) --- */
+        .dropdown-content {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            margin-left: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a {
+            display: block;
+            color: #94a3b8;
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+        .dropdown-content a:hover { color: #38bdf8; background: rgba(255,255,255,0.05); }
+
+        /* --- Main Content & Tabs --- */
+        .main-content { margin-left: 310px; padding: 50px; width: calc(100% - 380px); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeInUp 0.5s ease; }
+
+        .content-card { background: var(--light); padding: 35px; border-radius: 24px; margin-bottom: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); }
+
+        /* --- Forms --- */
+        .form-input { width: 100%; padding: 14px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #e2e8f0; font-family: inherit; box-sizing: border-box; }
+        .btn-reg { width: 100%; background: var(--primary); color: white; border: none; padding: 14px; border-radius: 10px; cursor: pointer; font-weight: 700; transition: 0.3s; }
+        .btn-reg:hover { background: #1d4ed8; transform: translateY(-2px); }
+        
+        .auth-toggle { text-align: center; margin-top: 15px; color: var(--slate); font-size: 0.9rem; }
+        .auth-toggle span { color: var(--primary); cursor: pointer; font-weight: 700; text-decoration: underline; }
+
+        /* --- Footer Info Box --- */
+        .footer-info {
+            margin-top: 15px;
+            text-align: left;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 10.5px;
+            line-height: 1.4;
+            max-width: 500px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar { width: 70px; padding: 15px; }
+            .sidebar h2, .nav-link span, .dropdown-content { display: none; }
+            .main-content { margin-left: 90px; width: calc(100% - 130px); }
+        }
+    </style>
+
+</head>
+
+
+<body>
+<div id="loader-wrapper">
+    <div class="loader-content">
+        <img src="https://raw.githubusercontent.com/DIZZY-KUSHAN/ICT-JUDE-HUB-PORTAL/main/logo.png" class="xoyel-logo-anim" alt="XOYEL Logo">
+    </div>
+</div>
+
+<style>
+    #loader-wrapper {
+        position: fixed; /* මුළු screen එකම වසා ගන්නා නිසා අනිත් content තල්ලු වෙන්නේ නැත */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: #0f172a; /* තද නිල්/කළු පසුබිම */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 100000; /* හැමදේටම වඩා උඩින් පෙන්වීමට */
+        transition: opacity 0.5s ease;
+    }
+
+    .loader-content {
+        text-align: center;
+    }
+
+    .xoyel-logo-anim {
+        width: 400px; /* ලෝගෝ එකේ ප්‍රමාණය */
+        height: auto;
+        animation: xoyelFade 1.0s ease-in-out forwards;
+    }
+
+    @keyframes xoyelFade {
+        0% { opacity: 0; transform: scale(0.9); }
+        100% { opacity: 1; transform: scale(1); }
+    }
+</style>
+   
+<style>
+/* CSS කෑල්ල විතරයි - මේක විතරක් Replace කරන්න */
+
+.floating-icon {
+    position: absolute;
+    color: transparent;
+    -webkit-text-stroke: 1.8px rgba(52, 152, 219, 0.8);
+    filter: drop-shadow(0 0 15px rgba(52, 152, 219, 0.5));
+    display: inline-block;
+    z-index: 10; /* මේ පේළිය අලුතින් එකතු කරන්න */
+    pointer-events: none; /* අයිකන උඩින් තිබුණත් බටන් එබීමට බාධාවක් වෙන්නේ නැහැ */
+}
+/* --- අයිකන් හතරට Animations 4ක් --- */
+
+.pos1 { 
+    top: 10vh; left: 80vw; font-size: 5rem; 
+    animation: moveUp 6s ease-in-out infinite; 
+} 
+
+
+.pos3 { 
+    top: 50vh; left: 35vw; font-size: 5.5rem; 
+    animation: moveSide 8s ease-in-out infinite; 
+} 
+
+.pos4 { 
+    top: 25vh; left: 30vw; font-size: 5rem; 
+    animation: moveDiagonal 9s ease-in-out infinite; 
+}
+
+/* --- එකිනෙකට වෙනස් ඇනිමේෂන් ටික මෙන්න --- */
+
+@keyframes moveUp {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-40px) rotate(10deg); }
+}
+
+@keyframes moveDown {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(40px) rotate(-10deg); } /* පල්ලෙහාට */
+}
+
+@keyframes moveSide {
+    0%, 100% { transform: translateX(0) scale(1); }
+    50% { transform: translateX(30px) scale(1.1); } /* පැත්තට */
+}
+
+@keyframes moveDiagonal {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-20px, -20px); } /* ඇලයට */
+
+}
+
+
+.side-floating-icon {
+    position: fixed;
+    bottom: 30px; /* WhatsApp එකට වඩා චුට්ටක් උඩින් තියෙන්න (WhatsApp එක තියෙන්නේ bottom 40px වල නම්) */
+    right: 180px;
+    z-index: 99;
+    animation: floatSide 3s ease-in-out infinite; /* පාවෙන animation එක */
+}
+
+.side-floating-icon img {
+    width: 70px; /* අයිකනයේ ප්‍රමාණය */
+    height: auto;
+    filter: drop-shadow(0 0 8px rgba(52, 152, 219, 0.6));
+    opacity: 0.8; /* චුට්ටක් transparent කළා පෙනුම ලස්සන වෙන්න */
+}
+
+/* පාවෙන animation එක */
+@keyframes floatSide {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-15px); /* උඩට පල්ලෙහාට යන ප්‍රමාණය */
+    }
+}
+
+    .whatsapp-float {
+        position: fixed;
+        width: 65px;
+        height: 65px;
+        bottom: 25px;
+        right: 25px;
+        background-color: #25d366;
+        color: #FFF;
+        border-radius: 50%;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        /* මුලින් තියෙන shadow එක */
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+        animation: big-pulse 1.5s infinite; /* වේගය තත්පර 1.5 දක්වා වැඩි කළා */
+        transition: 0.3s;
+    }
+
+    @keyframes big-pulse {
+        0% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+        }
+        70% {
+            transform: scale(1);
+            /* මෙතන 40px දැම්මේ Wave එක ලොකුවට විහිදෙන්න */
+            box-shadow: 0 0 0 40px rgba(37, 211, 102, 0);
+        }
+        100% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+        }
+    }
+
+    .whatsapp-float:hover {
+        background-color: #128C7E;
+        transform: scale(1.1);
+        animation: none; /* Hover කරද්දී Pulse එක නවතිනවා */
+    }
+
+    .whatsapp-icon {
+        width: 38px;
+        height: 38px;
+    }
+</style>
+
+<a href="https://api.whatsapp.com/send?phone=94769361706" class="whatsapp-float" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="whatsapp-icon">
+</a>
+<div class="side-floating-icon">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python">
+</div>
+
+<div id="customAlert"></div>
+
+<div class="bg-slider">
+    <div class="slide active" style="background-image: url(https://raw.githubusercontent.com/DIZZY-KUSHAN/ICT-JUDE-HUB-PORTAL/main/pic1.jpg);"></div>
+    <div class="slide crop-left" style="background-image: url(https://raw.githubusercontent.com/DIZZY-KUSHAN/ICT-JUDE-HUB-PORTAL/main/pic2.jpg);"></div>
+    <div class="slide" style="background-image: url(https://raw.githubusercontent.com/DIZZY-KUSHAN/ICT-JUDE-HUB-PORTAL/main/pic3.jpg);"></div>
+</div>
+
+<div class="sidebar">
+   <a href="index.html" style="text-decoration: none; color: inherit;">
+    <h1>ICT JUDE HUB</h1>
+</a>
+    
+    <nav>
+        <div class="nav-link active" onclick="switchTab('home-tab')"> <span>Home / Login</span></div>
+        <div class="nav-link" onclick="switchTab('portal-tab')"> <span>Class Portal</span></div>
+        
+        <div class="dropdown">
+            <div class="nav-link"><span>Past Papers ▾</span></div>
+            <div class="dropdown-content" style=max-height:300px;overflow-y:auto;>
+            
+<a href="view-paper.html?year=2015" target="_blank">2015 Paper</a>
+<a href="view-paper.html?year=2016" target="_blank">2016 Paper</a>
+<a href="view-paper.html?year=2017" target="_blank">2017 Paper</a>
+<a href="view-paper.html?year=2018" target="_blank">2018 Paper</a>
+<a href="view-paper.html?year=2019" target="_blank">2019 Paper</a>
+<a href="view-paper.html?year=2020" target="_blank">2020 Paper</a>
+<a href="view-paper.html?year=2021" target="_blank">2021 Paper</a>
+<a href="view-paper.html?year=2022" target="_blank">2022 Paper</a>
+<a href="view-paper.html?year=2023" target="_blank">2023 Paper</a>
+<a href="view-paper.html?year=2024" target="_blank">2024 Paper</a>
+<a href="view-paper.html?year=2025" target="_blank">2025 Paper</a>
+
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <div class="nav-link"><span>Weekly Papers ▾</span></div>
+            <div class="dropdown-content" style=max-height:300px;overflow-y:auto;>
+        
+                
+    <a href="view-paper.html?file=week1.pdf&title=Week 01">Week 01</a>
+    <a href="view-paper.html?file=week2.pdf&title=Week 02">Week 02</a>
+    <a href="view-paper.html?file=week3.pdf&title=Week 03">Week 03</a>
+    <a href="view-paper.html?file=week4.pdf&title=Week 04">Week 04</a>
+    <a href="view-paper.html?file=week5.pdf&title=Week 05">Week 05</a>
+    <a href="view-paper.html?file=week6.pdf&title=Week 06">Week 06</a>
+    <a href="view-paper.html?file=week7.pdf&title=Week 07">Week 07</a>
+    <a href="view-paper.html?file=week8.pdf&title=Week 08">Week 08</a>
+    <a href="view-paper.html?file=week9.pdf&title=Week 09">Week 09</a>
+    <a href="view-paper.html?file=week10.pdf&title=Week 10">Week 10</a>
+
+
+            </div>
+        </div>
+
+        <div class="nav-link" onclick="switchTab('progress-tab')"> <span>My Progress</span></div>
+        <div class="nav-link" onclick="switchTab('reviews-tab')"> <span>Reviews</span></div>
+        <div class="nav-link" onclick="switchTab('help-tab')"> <span>Help Center</span></div>
+    </nav>
+</div>
+
+	<div class="main-content">
+   
+  	<div id="home-tab" class="tab-content active">
+
+	<img src="https://upload.wikimedia.org/wikipedia/commons/6/62/CSS3_logo.svg" class="floating-icon pos1" style="width: 90px; height: auto; filter: 	drop-shadow(0 0 15px rgba(33, 150, 243, 0.5));">
+	    
+       <img src="https://upload.wikimedia.org/wikipedia/commons/2/27/PHP-logo.svg" class="floating-icon pos3" style="width: 100px; height: auto; -webkit-	text-stroke: 0; filter: drop-shadow(0 0 15px rgba(71, 74, 131, 0.5));">
+
+    
+	         <header class="reveal" style="color: white; margin-left: auto;">
+            <h1 style="font-size: 3rem; margin: 0;">Welcome, Future Expert </h1>
+            <p>Your journey to ICT mastery starts here.</p>
+        </header>
+     
+        <div class="content-card reveal" style="max-width: 350px; margin-left: auto; margin-right:0;">
+            <div id="loginForm">
+                <h2 style="margin-top:0;">Student Login</h2>
+                <form onsubmit="handleLogin(event)">
+                    <input type="text" id="loginUser" placeholder="Username" class="form-input" required>
+                    <input type="password" id="loginPass" placeholder="Password" class="form-input" required>
+                    <button type="submit" class="btn-reg">Login to Dashboard</button>
+                </form>
+                <div class="auth-toggle">
+                    You don't have an account? <span onclick="toggleAuth('reg')">Register Now</span>
+                </div>
+            </div>
+
+            <div id="registerForm" style="display: none;">
+                <h2 style="margin-top:0;">Create Account </h2>
+                <form onsubmit="handleRegister(event)">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <input type="text" id="firstName" placeholder="First Name" class="form-input" required>
+                        <input type="text" id="lastName" placeholder="Last Name" class="form-input" required>
+                    </div>
+                    <input type="text" id="regID" placeholder="National ID (NIC)" class="form-input" required>
+                    <input type="tel" id="regPhone" placeholder="Phone Number" class="form-input" required>
+                    <input type="email" id="regEmail" placeholder="Email Address" class="form-input" required>
+                    <input type="text" id="regUser" placeholder="Choose Username" class="form-input" required>
+                    <input type="password" id="regPass" placeholder="Create Password" class="form-input" required oninput="evaluatePassword(this.value)">
+                    
+                    <div class="strength-container">
+                        <div class="strength-bar"><div id="strengthProgress" class="strength-progress"></div></div>
+                        <span id="strengthText" style="font-size: 0.75rem; color: var(--slate);">Strength: Too short</span>
+                    </div>
+
+                    <button type="submit" class="btn-reg" style="margin-top: 15px;">Register & Verify</button>
+                </form>
+                <div class="auth-toggle">
+                    Already have an account? <span onclick="toggleAuth('login')">Login here</span>
+                </div>
+            </div>
+
+            <div id="otpSection" style="display: none; text-align: center;">
+                <h3>Verify Mobile</h3>
+                <p>Code: <b style="color:var(--success)">1234</b></p>
+                <input type="text" id="otpInput" placeholder="Enter 4-digit OTP" class="form-input" maxlength="4" style="text-align:center; font-size: 1.2rem;">
+                <button onclick="verifyOTP()" class="btn-reg">Complete Signup</button>
+            </div>
+        </div>
+
+        <div class="footer-info reveal" style="margin-left: 0; margin-right: auto;">
+            <b>ICT JUDE HUB</b><br>
+            BSc in Artificial Intelligence & Data Science | AD.Diploma in ICT Sp. Business IT - MDIS University (Singapore) | Diploma B.Sc. Network Engineering (SLIIT) | Former Lecturer | Former A/L ICT Teacher in Leading International School | C.E.O in Istharam Online Education | Founder of ICT with Kathurusingha
+        </div>
+         
+        <div class="reveal" style="color: white; margin-top: 30px; text-align: center;">
+            <h3>Contact Us</h3>
+            <p>📞 +94 77 936 1706 | 📧 info@judehub.com</p>
+        </div>
+    </div>
+
+  
+ 
+<style>
+    /* Content Card Design */
+    #portal-tab .content-card {
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .class-selector {
+        display: flex; gap: 10px; margin-bottom: 25px;
+        justify-content: center; flex-wrap: wrap;
+    }
+
+    .batch-btn {
+        padding: 10px 25px; border: 2px solid #3498db;
+        background: transparent; color: #3498db;
+        border-radius: 30px; cursor: pointer; font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .batch-btn.active { background: #3498db; color: white; }
+
+    /* Video List Layout */
+    .video-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .video-item {
+        display: flex;
+        align-items: center;
+        background: #fdfdfd;
+        padding: 12px;
+        border-radius: 12px;
+        text-decoration: none;
+        color: #2c3e50;
+        transition: 0.3s;
+        border: 1px solid #eee;
+    }
+
+    .video-item:hover {
+        background: #f0f7ff;
+        transform: scale(1.02);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .video-thumb {
+        width: 130px;
+        height: 75px;
+        border-radius: 8px;
+        object-fit: cover;
+        margin-right: 15px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .video-info { flex: 1; text-align: left; }
+
+    .video-info h4 {
+        margin: 0;
+        font-size: 0.95rem;
+        color: #2980b9;
+    }
+
+    .video-info p {
+        margin: 4px 0 0;
+        font-size: 0.8rem;
+        color: #7f8c8d;
+    }
+
+    .play-icon-mini {
+        color: #e74c3c;
+        font-size: 1.2rem;
+        margin-left: 10px;
+    }
+</style>
+
+<div id="portal-tab" class="tab-content">
+    <div class="content-card">
+        <h2 id="classTitle" style="text-align: center; color: #2c3e50; margin-bottom: 20px;">Class Portal</h2>
+        
+        <div class="class-selector">
+            <button class="batch-btn active" onclick="switchBatch(2026, this)">2026 A/L</button>
+            <button class="batch-btn" onclick="switchBatch(2027, this)">2027 A/L</button>
+            <button class="batch-btn" onclick="switchBatch(2028, this)">2028 A/L</button>
+        </div>
+
+        <div id="videoContainer" class="video-list">
+            </div>
+
+        <div style="text-align: center; margin-top: 25px;">
+            <a id="mainPlaylistLink" href="#" target="_blank" style="color:#e74c3c; font-weight:bold; text-decoration:none; font-size: 0.9rem;">
+                🔴 View Full Playlist on YouTube
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Oyaage links tika me widiyatama thiyala, e e batch ekata adala videos update kala
+    const batchData = {
+        2026: {
+            playlist: "https://www.youtube.com/watch?v=CCUKbKbY3jQ&list=PLdHbjsDuybaH4-jX9sX94rTQYdAy6enHn",
+            videos: [
+                { id: "CCUKbKbY3jQ", title: "2026 A/L Theory - Lesson 04", desc: "Operating system" },
+                { id: "GP4IWp4UMHQ", title: "2026 A/L Theory - Lesson 07", desc: "information system" },
+                { id: "8GMoJ8PnXuQ", title: "2026 A/L Theory - Lesson 09", desc: "Python" },
+ 		{ id: "WAQdPG7DcK8", title: "2026 A/L Theory - Lesson 06", desc: "Networking" },
+ 		{ id: "IRDTOA9kGjo", title: "2026 A/L Theory - Lesson 08", desc: "Database" },
+		{ id: "uxycGR34JYU", title: "2026 A/L Theory - Lesson 04", desc: "Logic gate" },
+ 		{ id: "loKYNuKWDlg", title: "2026 A/L Theory - Lesson 03", desc: "Number systems" },
+ 		            ]
+        },
+        2027: {
+            playlist: "https://www.youtube.com/watch?v=8GMoJ8PnXuQ&list=PLdHbjsDuybaFq8LTBvjhoOwDslDKfgDmI",
+            videos: [
+                { id: "p8N1LMcJN34", title: "2027 A/L - First Session", desc: "Batch Introduction & Subject Overview" }
+            ]
+        },
+        2028: {
+            playlist: "https://www.youtube.com/watch?v=GP4IWp4UMHQ&list=PLdHbjsDuybaHxoNCixIcqFwyfvZHoZ7Po",
+            videos: [
+                { id: "737ZPeaZvU8", title: "2028 A/L - Intro Video", desc: "Getting Started with 2028 New batch" }
+
+
+
+
+            ]
+        }
+    };
+
+    function switchBatch(year, btn) {
+        // UI Updates
+        document.getElementById('classTitle').innerText = year + " A/L Class Portal";
+        document.querySelectorAll('.batch-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const data = batchData[year];
+        const container = document.getElementById('videoContainer');
+        container.innerHTML = ""; // Parana list eka clear kireema
+
+        // Video list eka hadanna
+        data.videos.forEach(vid => {
+            const videoHtml = `
+                <a href="https://www.youtube.com/watch?v=${vid.id}&list=${data.playlist.split('list=')[1]}" target="_blank" class="video-item">
+                    <img class="video-thumb" src="https://img.youtube.com/vi/${vid.id}/mqdefault.jpg" alt="thumb">
+                    <div class="video-info">
+                        <h4>${vid.title}</h4>
+                        <p>${vid.desc}</p>
+                    </div>
+                    <div class="play-icon-mini">▶</div>
+                </a>
+            `;
+            container.innerHTML += videoHtml;
+        });
+
+        // Main playlist link update
+        document.getElementById('mainPlaylistLink').href = data.playlist;
+    }
+
+    // Default load (2026)
+    window.addEventListener('DOMContentLoaded', () => {
+        const activeBtn = document.querySelector('.batch-btn.active');
+        if(activeBtn) switchBatch(2026, activeBtn);
+    });
+</script>
+
+
+
+
+
+
+   <style>
+    #progress-tab {
+        background-color: #f4f7f6; /* Transparent nathi wenna background ekak */
+        padding: 25px;
+        border-radius: 15px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+        margin-bottom: 25px;
+    }
+
+    .stat-card {
+        background: #ffffff; /* Sudu paata cards */
+        padding: 20px;
+        border-radius: 12px;
+        border-top: 5px solid #3498db;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08); /* Shadow eka nisa kapaala penawa */
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .stat-card h3 {
+        margin: 0;
+        font-size: 0.9rem;
+        color: #7f8c8d;
+        text-transform: uppercase;
+    }
+
+    .stat-card p {
+        margin: 10px 0 0;
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #2c3e50;
+    }
+
+    /* Marks Input Section */
+    .input-container {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .input-group {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    input[type="number"] {
+        flex: 1;
+        padding: 12px;
+        border: 2px solid #ecf0f1;
+        border-radius: 8px;
+        outline: none;
+    }
+
+    input[type="number"]:focus {
+        border-color: #3498db;
+    }
+
+    .btn-update {
+        padding: 10px 25px;
+        background-color: #27ae60;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+    .btn-update:hover {
+        background-color: #219150;
+    }
+
+    .history-label {
+        margin-top: 15px;
+        font-size: 0.85rem;
+        color: #95a5a6;
+    }
+</style>
+
+<div id="progress-tab" class="tab-content">
+
+<div class="input-container" style="max-width: 500px; margin: auto; background: white; padding: 0px; border-radius: 12px; margin-bottom: px;">
+            <h3 style="margin-top:0; color:#2c3e50;">Student Progress Tracker</h3>
+
+        <input type="text" id="student-name" placeholder="Enter Your Name" class="form-input">
+        <div class="input-group" style="display: flex; gap: 10px; margin-top: 10px;">
+
+           <input type="number" id="user-mark-input" placeholder="Enter Marks (0-100)" onkeydown="if(event.key==='Enter') calculateProgress()" style="flex:1; padding:12px; border:2px solid #eee; border-radius:8px;">
+
+            <button class="btn-update" onclick="calculateProgress()" style="padding:10px 25px; background:#27ae60; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">Update Sheet</button>
+        </div>
+    </div>
+
+    <div id="capture-area" style="background: #ffffff; padding: 30px; border-radius: 20px; border: 1px solid #e2e8f0;">
+        <h2 id="display-name" style="margin-top:0; color:#0f172a; text-align:center;">Progress Report Card</h2>
+        
+        <div class="stats-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0;">
+            <div class="stat-card" style="background:#f8fafc; padding:15px; border-radius:12px; text-align:center; border-top: 4px solid #3498db;">
+                <h3 style="font-size:0.8rem; color:#64748b; margin:0;">AVERAGE</h3>
+                <p id="avg-display" style="font-size:1.8rem; font-weight:bold; margin:10px 0 0;">0%</p>
+            </div>
+            <div class="stat-card" style="background:#f8fafc; padding:15px; border-radius:12px; text-align:center; border-top: 4px solid #f1c40f;">
+                <h3 style="font-size:0.8rem; color:#64748b; margin:0;">TESTS</h3>
+                <p id="test-count" style="font-size:1.8rem; font-weight:bold; margin:10px 0 0;">0</p>
+            </div>
+        </div>
+
+        <div class="table-container" style="max-height: 300px; overflow-y: auto; border: 1px solid #f1f5f9; border-radius: 10px;">
+            <table id="marks-table" style="width:100%; border-collapse: collapse;">
+                <thead style="position: sticky; top: 0; background: #f8fafc;">
+                    <tr>
+                        <th style="padding:12px; text-align:left; border-bottom:2px solid #eee; font-size:0.8rem; color:#64748b;">DATE</th>
+                        <th style="padding:12px; text-align:left; border-bottom:2px solid #eee; font-size:0.8rem; color:#64748b;">MARKS</th>
+                        <th style="padding:12px; text-align:left; border-bottom:2px solid #eee; font-size:0.8rem; color:#64748b;">RESULT</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <button class="btn-download" onclick="downloadSheet()" style="width:100%; background:#0f172a; color:white; padding:15px; border:none; border-radius:12px; cursor:pointer; font-weight:bold; margin-top:5px;">
+        <i class="fa-solid fa-download"></i> Download Sheet as PNG
+    </button>
+</div>
+<div id="reviews-tab" class="tab-content">
+    <div class="content-card" style="max-width: 600px; margin: 0 auto; padding: 25px;">
+        <h2 style="text-align:center; color:#0f172a;">Rate Your Experience</h2>
+        
+        <div style="text-align:center; margin-bottom:20px;">
+            <div id="star-container" style="font-size: 3rem; display: inline-flex; gap: 5px;">
+                <span class="star-btn" data-value="1" onclick="updateRating(1)" style="cursor:pointer; color:#ddd; transition: 0.3s;">★</span>
+                <span class="star-btn" data-value="2" onclick="updateRating(2)" style="cursor:pointer; color:#ddd; transition: 0.3s;">★</span>
+                <span class="star-btn" data-value="3" onclick="updateRating(3)" style="cursor:pointer; color:#ddd; transition: 0.3s;">★</span>
+                <span class="star-btn" data-value="4" onclick="updateRating(4)" style="cursor:pointer; color:#ddd; transition: 0.3s;">★</span>
+                <span class="star-btn" data-value="5" onclick="updateRating(5)" style="cursor:pointer; color:#ddd; transition: 0.3s;">★</span>
+            </div>
+            <p id="rating-text" style="color:#64748b; font-size:0.9rem; margin-top:5px;">Select stars</p>
+        </div>
+
+        <input type="text" id="rev-name" placeholder="Your Name" style="width:100%; padding:12px; margin-bottom:15px; border:2px solid #eee; border-radius:10px;">
+        <textarea id="rev-msg" placeholder="Write your review here..." style="width:100%; height:100px; padding:12px; margin-bottom:15px; border:2px solid #eee; border-radius:10px;"></textarea>
+
+        <div style="background:#f1f5f9; padding:15px; border-radius:10px; margin-bottom:15px;">
+            <label style="font-size:0.8rem; color:#475569; display:block; margin-bottom:8px;">Add a Photo (Optional)</label>
+            <input type="file" id="rev-file" accept="image/*" style="width:100%;">
+        </div>
+
+        <button onclick="postNewReview()" style="width:100%; background:#27ae60; color:white; padding:15px; border:none; border-radius:12px; font-weight:bold; cursor:pointer;">
+            Submit My Review
+        </button>
+
+        <hr style="margin: 30px 0; border:0; border-top:1px solid #eee;">
+        
+        <div id="reviews-wall"></div>
+    </div>
+</div>
+
+<div id="help-tab" class="tab-content">
+    <div style="max-width: 450px; margin: 20px auto; height: 550px; display: flex; flex-direction: column; background: #ffffff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; border: 1px solid #e2e8f0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+        
+        <div style="background: #0f172a; color: white; padding: 15px; text-align: center; border-bottom: 4px solid #3498db;">
+            <h3 style="margin: 0; font-size: 1.1rem; letter-spacing: 1px;">Chat Bot</h3>
+            <span style="font-size: 0.7rem; color: #10b981; font-weight: bold;">● SYSTEM ACTIVE</span>
+        </div>
+
+        <div id="chat-box" style="flex: 1; overflow-y: auto; padding: 20px; background: #f8fafc; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth;">
+            <div style="background: white; padding: 12px 16px; border-radius: 15px 15px 15px 5px; align-self: flex-start; max-width: 85%; box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-size: 0.9rem; border: 1px solid #edf2f7; color: #334155; line-height: 1.4;">
+                ආයුබෝවන්! මම **Chat bot**. ඔයාට පෝටල් එකේ වැඩ වලට හෝ ICT පාඩම් වලට මගෙන් උදව් ගන්න පුළුවන්. මොකක්ද දැනගන්න ඕනේ?
+            </div>
+        </div>
+
+        <div style="padding: 15px; background: white; border-top: 1px solid #eee; display: flex; gap: 8px;">
+            <input type="text" id="bot-input" placeholder="Type a message..." 
+                   style="flex: 1; padding: 12px 15px; border: 2px solid #e2e8f0; border-radius: 10px; outline: none; font-size: 0.9rem; transition: 0.3s;"
+                   onfocus="this.style.borderColor='#3498db'" onblur="this.style.borderColor='#e2e8f0'">
+            
+            <button id="send-btn" 
+                    style="background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 0.9rem; transition: 0.2s;"
+                    onmouseover="this.style.background='#2980b9'" onmouseout="this.style.background='#3498db'">
+                Send
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+let marksArray = []; // මේක script එක උඩින්ම තියෙන්න ඕනේ
+
+function calculateProgress() {
+    const nameInput = document.getElementById('student-name').value;
+    const markInput = document.getElementById('user-mark-input');
+    const markValue = parseFloat(markInput.value);
+
+    // Validation
+    if (isNaN(markValue) || markValue < 0 || markValue > 100) {
+        alert("Please enter a valid mark (0-100)");
+        return;
+    }
+
+    // නම Update කිරීම
+    document.getElementById('display-name').innerText = nameInput ? nameInput + "'s Progress Report" : "Student Progress Report";
+
+    marksArray.push(markValue);
+    const date = new Date().toLocaleDateString();
+    
+    // Average Calculation
+    const totalSum = marksArray.reduce((acc, curr) => acc + curr, 0);
+    const average = (totalSum / marksArray.length).toFixed(1);
+
+    // Table එකට අලුත් පේළියක් දානවා
+    const tableBody = document.getElementById('table-body');
+    const row = `<tr style="border-bottom: 1px solid #f1f5f9;">
+        <td style="padding:12px; font-size:0.9rem;">${date}</td>
+        <td style="padding:12px; font-size:0.9rem; font-weight:bold;">${markValue}</td>
+        <td style="padding:12px; font-size:0.9rem;">
+            <span style="color:${markValue >= 40 ? '#22c55e' : '#ef4444'}; font-weight:bold;">
+                ${markValue >= 40 ? 'PASS' : 'WEAK'}
+            </span>
+        </td>
+    </tr>`;
+    tableBody.innerHTML += row;
+
+    // උඩ තියෙන Card වල දත්ත update කිරීම
+    document.getElementById('avg-display').innerText = average + "%";
+    document.getElementById('test-count').innerText = marksArray.length;
+
+    markInput.value = ""; // Input එක clear කරනවා
+}
+
+// PNG Download Function
+function downloadSheet() {
+    const area = document.getElementById('capture-area');
+    html2canvas(area, { backgroundColor: "#ffffff" }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'XOYEL-Progress-Sheet.png';
+        link.href = canvas.toDataURL();
+        link.click();
+    });
+}
+
+
+   </script>
+
+
+<script>
+let userRating = 0;
+
+// තරු පාලනය කරන Function එක
+function updateRating(n) {
+    userRating = n;
+    const stars = document.querySelectorAll('.star-btn');
+    const statusText = document.getElementById('rating-text');
+    
+    stars.forEach(star => {
+        const val = parseInt(star.getAttribute('data-value'));
+        star.style.color = val <= n ? '#f1c40f' : '#ddd';
+    });
+    statusText.innerText = `You rated: ${n} Star${n > 1 ? 's' : ''}`;
+}
+
+// Review එක Post කරන Function එක
+function postNewReview() {
+    const name = document.getElementById('rev-name').value;
+    const message = document.getElementById('rev-msg').value;
+    const fileInput = document.getElementById('rev-file');
+    const wall = document.getElementById('reviews-wall');
+
+    if (!name || !message || userRating === 0) {
+        alert("ඔක්කොම විස්තර ටිකයි තරුවල ප්‍රමාණයයි ඇතුළත් කරන්න මචං!");
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const imgData = fileInput.files[0] ? e.target.result : null;
+        
+        const reviewBox = `
+            <div style="background:#ffffff; border:1px solid #e2e8f0; padding:20px; border-radius:15px; margin-bottom:15px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h4 style="margin:0; color:#0f172a;">${name}</h4>
+                    <span style="color:#f1c40f; font-size:1.2rem;">${"★".repeat(userRating)}</span>
+                </div>
+                <p style="color:#475569; margin:10px 0;">${message}</p>
+                ${imgData ? `<img src="${imgData}" style="width:100%; border-radius:10px; margin-top:10px;">` : ''}
+            </div>
+        `;
+        
+        wall.innerHTML = reviewBox + wall.innerHTML;
+
+        // Reset inputs
+        document.getElementById('rev-name').value = '';
+        document.getElementById('rev-msg').value = '';
+        document.getElementById('rev-file').value = '';
+        updateRating(0);
+        document.getElementById('rating-text').innerText = "Select stars";
+    };
+
+    if (fileInput.files[0]) {
+        reader.readAsDataURL(fileInput.files[0]);
+    } else {
+        reader.onload({target: {result: null}});
+    }
+}
+</script>
+<script>
+// AI එකේ දැනුම (Train කරපු තැන)
+const aiKnowledge = {
+    "ict": [
+        "ICT කියන්නේ Information and Communication Technology. අපේ පෝටල් එකේ මේ ගැන වීඩියෝ ගොඩක් තියෙනවා.",
+        "ඔයා ICT ගැනද අහන්නේ? Jude Sir ගේ පන්තියේදී ඒ ගැන අපි ගැඹුරින් ඉගෙන ගන්නවා.",
+        "ICT කියන්නේ අනාගතය! මට පුළුවන් ඔයාට ICT පාඩම් වල තියෙන ගැටළු විසඳන්න උදව් කරන්න."
+    ],
+    "python": [
+        "Python කියන්නේ හරිම ලේසි programming language එකක්. Jude Hub එකේ Python ගැන මූලික පාඩම් තියෙනවා.",
+        "ඔයා code කරන්න ඉගෙන ගන්නවා නම් Python තමයි හොඳම ආරම්භය.",
+        "Python ගැන Jude Sir ගේ 08 වෙනි ටියුට් එකේ සවිස්තරාත්මකව තියෙනවා."
+    ],
+    "hello": [
+        "Hello! මම XOYEL AI. ඔයාට අද කොහොමද උදව් කරන්න ඕනේ?",
+        "Hi there! ICT Jude Hub එකට සාදරයෙන් පිළිගන්නවා. මම ඔයාගේ සහායකයා.",
+        "ආයුබෝවන්! මම XOYEL AI. මොකක්ද අද දැනගන්න ඕනේ?"
+    ],
+    "marks": [
+        "ඔයාගේ ලකුණු බලන්න Sidebar එකේ තියෙන 'Progress Report' එකට යන්න.",
+        "Marks ගැන විස්තර ඔක්කොම ඔයාගේ Profile එකේ අප්ඩේට් වෙලා තියෙන්නේ.",
+        "Exams වල Marks දැන් පෝටල් එකේ තියෙනවා. ගිහින් බලන්න!"
+    ],
+    "default": [
+        "හ්ම්... ඒ ගැන මම තාම ඉගෙන ගන්නවා. හැබැයි ICT ගැන ඕනෑම දෙයක් ඇහුවොත් මට උත්තර දෙන්න පුළුවන්.",
+        "ඒක මරු ප්‍රශ්නයක්! මම ඒක Jude Sir ගේ අවධානයට යොමු කරන්නම්.",
+        "මට ඒක හරියටම තේරුණේ නැහැ. ඔයාට පුළුවන්ද ඒක වෙනස් විදිහකට අහන්න?",
+        "මම තාම පුහුණු වෙන AI කෙනෙක්. ඔයා පෝටල් එකේ වැඩ ගැන අහනවා නම් මට උදව් කරන්න ලේසියි."
+
+
+      
+    ]
+};
+
+function handleUserChat() {
+    const inputField = document.getElementById('bot-input');
+    const chatBox = document.getElementById('chat-box');
+    
+    if (!inputField || !chatBox) return;
+
+    const userText = inputField.value.trim();
+    if (userText === "") return;
+
+    // 1. User Message
+    chatBox.innerHTML += `<div style="background: #0f172a; color: white; padding: 12px 16px; border-radius: 15px 15px 5px 15px; align-self: flex-end; max-width: 85%; font-size: 0.9rem; margin-bottom: 5px;">${userText}</div>`;
+    inputField.value = ""; 
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    // 2. Local Thinking (Internet ඕනෙ නැහැ)
+    const lowerQ = userText.toLowerCase();
+    let responseCategory = "default";
+
+    // Keyword එක අනුව Category එක තෝරාගැනීම
+    if (lowerQ.includes("hi") || lowerQ.includes("hello") || lowerQ.includes("ආයුබෝවන්")) responseCategory = "hello";
+    else if (lowerQ.includes("ict") || lowerQ.includes("it")) responseCategory = "ict";
+    else if (lowerQ.includes("python") || lowerQ.includes("code")) responseCategory = "python";
+    else if (lowerQ.includes("mark") || lowerQ.includes("results") || lowerQ.includes("ලකුණු")) responseCategory = "marks";
+
+    // තෝරාගත් Category එකෙන් random උත්තරයක් ගැනීම
+    const replies = aiKnowledge[responseCategory];
+    const finalAnswer = replies[Math.floor(Math.random() * replies.length)];
+
+    // 3. Display Result
+    setTimeout(() => {
+        chatBox.innerHTML += `
+            <div style="background: white; padding: 12px 16px; border-radius: 15px 15px 15px 5px; align-self: flex-start; max-width: 85%; box-shadow: 0 4px 10px rgba(0,0,0,0.05); font-size: 0.9rem; border-left: 5px solid #3498db; line-height: 1.5; color: #1e293b; margin-bottom: 5px;">
+                ${finalAnswer}
+            </div>
+        `;
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }, 600); // පොඩි වෙලාවක් යනවා වගේ පෙන්වන්න
+}
+
+// Event Listeners
+document.addEventListener('DOMContentLoaded', () => {
+    const sendBtn = document.getElementById('send-btn');
+    const inputField = document.getElementById('bot-input');
+    if (sendBtn) sendBtn.onclick = handleUserChat;
+    if (inputField) inputField.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleUserChat(); });
+});
+</script>
+
+<script>
+    // Slider Logic
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+    setInterval(() => {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('active');
+    }, 5000);
+
+    // Tab Switching
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+    }
+
+    // Auth Toggle
+    function toggleAuth(mode) {
+        document.getElementById('loginForm').style.display = mode === 'reg' ? 'none' : 'block';
+        document.getElementById('registerForm').style.display = mode === 'reg' ? 'block' : 'none';
+    }
+
+    // Password Evaluation
+    function evaluatePassword(pass) {
+        const prog = document.getElementById('strengthProgress');
+        let score = (pass.length > 6) + (/[A-Z]/.test(pass)) + (/[0-9]/.test(pass));
+        prog.style.width = (score * 33) + '%';
+        prog.style.background = score < 2 ? 'var(--danger)' : 'var(--success)';
+    }
+
+    // Alerts
+    function showAlert(msg, type) {
+        const box = document.getElementById('customAlert');
+        box.innerText = msg;
+        box.style.background = type === 'error' ? 'var(--danger)' : 'var(--success)';
+        box.style.display = "block";
+        setTimeout(() => box.style.display = "none", 3000);
+    }
+
+    function handleLogin(e) { e.preventDefault(); showAlert("Welcome back!", "success"); }
+    function toggleHelp(id) { const el = document.getElementById(id); el.style.display = el.style.display === "none" ? "block" : "none"; }
+</script>
+
+<script>
+        // වෙබ් පිටුව සම්පූර්ණයෙන්ම ලෝඩ් වුණාම මේක වැඩ කරනවා
+        window.addEventListener("load", function() {
+            // තත්පර 2ක් (මිලි තත්පර 2000ක්) ගියාම ලෝඩර් එක අයින් කරන්න
+            setTimeout(function() {
+                var loader = document.getElementById("loader-wrapper");
+                if(loader) {
+                    loader.style.display = "none";
+                }
+            }, 2000); 
+        });
+    </script>
+
+
+</body>
+
+</html>
