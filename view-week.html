@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Viewer</title>
+    <style>
+        body { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; background: #1e293b; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        header { background: #0f172a; color: #3498db; padding: 12px 20px; font-weight: bold; border-bottom: 2px solid #3498db; display: flex; justify-content: space-between; align-items: center; }
+        .main { display: flex; flex: 1; overflow: hidden; }
+        .pdf-box { flex: 3; background: #334155; padding: 15px; display: flex; justify-content: center; }
+        iframe { width: 100%; height: 100%; background: white; border-radius: 8px; border: none; }
+        .sidebar { flex: 1; max-width: 300px; background: white; padding: 25px; display: flex; flex-direction: column; gap: 20px; }
+        .btn { text-decoration: none; padding: 12px; border-radius: 8px; text-align: center; font-weight: bold; font-size: 14px; }
+        .dl-btn { background: #10b981; color: white; }
+        .bk-btn { background: #f1f5f9; color: #1e293b; border: 1px solid #ddd; }
+        @media (max-width: 800px) { .main { flex-direction: column; overflow-y: auto; } .sidebar { max-width: 100%; } .pdf-box { height: 450px; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <span id="header-title">LOADING DOCUMENT...</span>
+</header>
+
+<div class="main">
+    <div class="pdf-box">
+        <iframe id="viewer" src=""></iframe>
+    </div>
+
+    <div class="sidebar">
+        <h2 id="side-title" style="margin:0; color:#0f172a; font-size:1.2rem;">Paper Info</h2>
+        <p style="font-size: 0.85rem; color: #64748b;">ඔබට මෙම පේපර් එක මෙතැනින් බැලීමට හෝ පහත බටන් එකෙන් Download කරගැනීමට හැකියාව ඇත.</p>
+        
+        <a id="download-btn" href="#" download class="btn dl-btn">Download PDF</a>
+        <a href="index.html" class="btn bk-btn">Go Back</a>
+    </div>
+</div>
+
+<script>
+    // URL එකෙන් file එක ගන්නවා
+    const urlParams = new URLSearchParams(window.location.search);
+    const file = urlParams.get('file');
+    const title = urlParams.get('title');
+
+    if (file) {
+        const filePath = "weekly/" + file;
+        
+        // 1. PDF එක පෙන්වන්න (Browser එකේ default viewer එක පාවිච්චි කරනවා)
+        document.getElementById('viewer').src = filePath;
+        
+        // 2. Download ලින්ක් එක සෙට් කරනවා
+        document.getElementById('download-btn').href = filePath;
+        document.getElementById('download-btn').setAttribute('download', file);
+        
+        // 3. Titles Update කරනවා
+        document.getElementById('header-title').innerText = title || "ICT PAPER";
+        document.getElementById('side-title').innerText = title || "ICT PAPER";
+    }
+</script>
+
+</body>
+</html>
