@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT Jude Hub | Pro Student Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+   
+</head>
+<body>
+<div class="mobile-header">
+    <div id="menu-btn" class="hamburger-icon-old">&#9776;</div>
+    
+    <a href="javascript:location.reload();" id="site-logo">ICT JUDE HUB</a>
+</div>
+<a href="https://api.whatsapp.com/send?phone=94779361706" class="whatsapp-float" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="whatsapp-icon">
+</a>
+<div class="side-floating-icon">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python">
+</div>
+
+<div id="customAlert"></div>
+
+<div class="bg-slider">
+    <div class="slide active" style="background-image: url(https://raw.githubusercontent.com/DIZZY-KUSHAN/ICT-JUDE-HUB-PORTAL/main/pic1.jpg);"></div>
+    <div class="slide" style="background-image: url(https://raw.githubusercontent.com/DIZZY-KUSHAN/ICT-JUDE-HUB-PORTAL/main/pic3.jpg);"></div>
+</div>
+
+<div class="sidebar">
+   <a href="index.html" style="text-decoration: none; color: inherit;">
+    <h1>ICT JUDE HUB</h1>
+</a>
+    
+    <nav>
+        <div class="nav-link active" onclick="switchTab('home-tab')"> <span>Home / Login</span></div>
+        <div class="nav-link" onclick="switchTab('portal-tab')"> <span>Class Portal</span></div>
+
+  <div class="nav-link" onclick="switchTab('past-papers-tab')"> <span>Past Papers</span></div>
+    <div class="nav-link" onclick="switchTab('weekly-papers-tab')"> <span>Weekly Papers</span></div>
+
+        
+      
+       
+        <div class="nav-link" onclick="switchTab('progress-tab')"> <span>My Progress</span></div>
+        <div class="nav-link" onclick="switchTab('reviews-tab')"> <span>Reviews</span></div>
+        <div class="nav-link" onclick="switchTab('help-tab')"> <span>Help Center</span></div>
+    </nav>
+</div>
+
+	<div class="main-content">
+   
+  	<div id="home-tab" class="tab-content active">
+
+	<img src="https://upload.wikimedia.org/wikipedia/commons/6/62/CSS3_logo.svg" class="floating-icon pos1" style="width: 90px; height: auto; filter: 	drop-shadow(0 0 15px rgba(33, 150, 243, 0.5));">
+	    
+       <img src="https://upload.wikimedia.org/wikipedia/commons/2/27/PHP-logo.svg" class="floating-icon pos3" style="width: 100px; height: auto; -webkit-	text-stroke: 0; filter: drop-shadow(0 0 15px rgba(71, 74, 131, 0.5));">
+
+    
+	         <header class="reveal" style="color: white; margin-left: auto;">
+            <h1 style="font-size: 3rem; margin: 0;">Welcome, Future Expert </h1>
+            <p>Your journey to ICT mastery starts here.</p>
+        </header>
+     
+        <div class="content-card reveal" style="max-width: 500px; margin-left: auto; margin-right:0;">
+            <div id="loginForm">
+                <h2 style="margin-top:0;">Student Login</h2>
+                <form onsubmit="handleLogin(event)">
+                    <input type="text" id="loginUser" placeholder="Username" class="form-input" required>
+                    <input type="password" id="loginPass" placeholder="Password" class="form-input" required>
+                    <button type="submit" class="btn-reg">Login to Dashboard</button>
+                </form>
+                <div class="auth-toggle">
+                    You don't have an account? <span onclick="toggleAuth('reg')">Register Now</span>
+                </div>
+            </div>
+
+            <div id="registerForm" style="display: none;">
+                <h2 style="margin-top:0;">Create Account </h2>
+                <form onsubmit="handleRegister(event)">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <input type="text" id="firstName" placeholder="First Name" class="form-input" required>
+                        <input type="text" id="lastName" placeholder="Last Name" class="form-input" required>
+                    </div>
+                    <input type="text" id="regID" placeholder="National ID (NIC)" class="form-input" required>
+                    <input type="tel" id="regPhone" placeholder="Phone Number" class="form-input" required>
+                    <input type="email" id="regEmail" placeholder="Email Address" class="form-input" required>
+                    <input type="text" id="regUser" placeholder="Choose Username" class="form-input" required>
+                    <input type="password" id="regPass" placeholder="Create Password" class="form-input" required oninput="evaluatePassword(this.value)">
+                    
+                    <div class="strength-container">
+                        <div class="strength-bar"><div id="strengthProgress" class="strength-progress"></div></div>
+                        <span id="strengthText" style="font-size: 0.75rem; color: var(--slate);">Strength: Too short</span>
+                    </div>
+
+                    <button type="submit" class="btn-reg" style="margin-top: 15px;">Register & Verify</button>
+                </form>
+                <div class="auth-toggle">
+                    Already have an account? <span onclick="toggleAuth('login')">Login here</span>
+                </div>
+            </div>
+
+            <div id="otpSection" style="display: none; text-align: center;">
+                <h3>Verify Mobile</h3>
+                <p>Code: <b style="color:var(--success)">1234</b></p>
+                <input type="text" id="otpInput" placeholder="Enter 4-digit OTP" class="form-input" maxlength="4" style="text-align:center; font-size: 1.2rem;">
+                <button onclick="verifyOTP()" class="btn-reg">Complete Signup</button>
+            </div>
+        </div>
+
+        <div class="footer-info reveal" style="margin-left: 0; margin-right: auto;">
+            <b>ICT JUDE HUB</b><br>
+            BSc in Artificial Intelligence & Data Science | AD.Diploma in ICT Sp. Business IT - MDIS University (Singapore) | Diploma B.Sc. Network Engineering (SLIIT) | Former Lecturer | Former A/L ICT Teacher in Leading International School | C.E.O in Istharam Online Education | Founder of ICT with Kathurusingha
+        </div>
+         
+        <div class="reveal" style="color: white; margin-top: 30px; text-align: center;">
+            <h3>Contact Us</h3>
+            <p>📞 +94 77 936 1706 | 📧 info@judehub.com</p>
+        </div>
+    </div>
+
+ 
+<div id="portal-tab" class="tab-content">
+    <div class="content-card">
+        <h2 id="classTitle" style="text-align: center; color: #2c3e50; margin-bottom: 20px;">Class Portal</h2>
+        
+        <div class="class-selector">
+            <button class="batch-btn active" onclick="switchBatch(2026, this)">2026 A/L</button>
+            <button class="batch-btn" onclick="switchBatch(2027, this)">2027 A/L</button>
+            <button class="batch-btn" onclick="switchBatch(2028, this)">2028 A/L</button>
+        </div>
+
+        <div id="videoContainer" class="video-list">
+            </div>
+
+        <div style="text-align: center; margin-top: 25px;">
+            <a id="mainPlaylistLink" href="#" target="_blank" style="color:#e74c3c; font-weight:bold; text-decoration:none; font-size: 0.9rem;">
+                🔴 View Full Playlist on YouTube
+            </a>
+        </div>
+    </div>
+</div>
+
+
+  
+<div id="progress-tab" class="tab-content">
+
+<div class="input-container" style="max-width: 500px; margin: auto; background: white; padding: 0px; border-radius: 12px; margin-bottom: px;">
+            <h3 style="margin-top:0; color:#2c3e50;">Student Progress Tracker</h3>
+
+        <input type="text" id="student-name" placeholder="Enter Your Name" class="form-input">
+        <div class="input-group" style="display: flex; gap: 10px; margin-top: 10px;">
+
+           <input type="number" id="user-mark-input" placeholder="Enter Marks (0-100)" onkeydown="if(event.key==='Enter') calculateProgress()" style="flex:1; padding:12px; border:2px solid #eee; border-radius:8px;">
+
+            <button class="btn-update" onclick="calculateProgress()" style="padding:10px 25px; background:#27ae60; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">Update Sheet</button>
+        </div>
+    </div>
+
+    <div id="capture-area" style="background: #ffffff; padding: 30px; border-radius: 20px; border: 1px solid #e2e8f0;">
+        <h2 id="display-name" style="margin-top:0; color:#0f172a; text-align:center;">Progress Report Card</h2>
+        
+        <div class="stats-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0;">
+            <div class="stat-card" style="background:#f8fafc; padding:15px; border-radius:12px; text-align:center; border-top: 4px solid #3498db;">
+                <h3 style="font-size:0.8rem; color:#64748b; margin:0;">AVERAGE</h3>
+                <p id="avg-display" style="font-size:1.8rem; font-weight:bold; margin:10px 0 0;">0%</p>
+            </div>
+
+
+            <div class="stat-card" style="background:#f8fafc; padding:15px; border-radius:12px; text-align:center; border-top: 4px solid #f1c40f;">
+                <h3 style="font-size:0.8rem; color:#64748b; margin:0;">TESTS</h3>
+                <p id="test-count" style="font-size:1.8rem; font-weight:bold; margin:10px 0 0;">0</p>
+            </div>
+        </div>
+
+        <div class="table-container" style="max-height: 300px; overflow-y: auto; border: 1px solid #f1f5f9; border-radius: 10px;">
+            <table id="marks-table" style="width:100%; border-collapse: collapse;">
+                <thead style="position: sticky; top: 0; background: #f8fafc;">
+                    <tr>
+                        <th style="padding:12px; text-align:left; border-bottom:2px solid #eee; font-size:0.8rem; color:#64748b;">DATE</th>
+                        <th style="padding:12px; text-align:left; border-bottom:2px solid #eee; font-size:0.8rem; color:#64748b;">MARKS</th>
+                        <th style="padding:12px; text-align:left; border-bottom:2px solid #eee; font-size:0.8rem; color:#64748b;">RESULT</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+
+    <button class="btn-download" onclick="downloadProfessionalPDF()" style="width:100%; background:#0f172a; color:white; padding:15px; border:none; border-radius:12px; cursor:pointer; font-weight:bold; margin-top:5px;">
+        <i class="fa-solid fa-download"></i> Download Sheet as Pdf
+    </button>
+
+
+
+
+
+
+
+</div>
+<div id="reviews-tab" class="tab-content">
+    <div class="content-card" style="max-width: 600px; margin: 0 auto; padding: 25px;">
+        <h2 style="text-align:center; color:#0f172a;">Rate Your Experience</h2>
+        
+        <div style="text-align:center; margin-bottom:20px;">
+            <div id="star-container" style="font-size: 3rem; display: inline-flex; gap: 5px;">
+                <span class="star-btn" data-value="1" onclick="updateRating(1)" style="cursor:pointer; color:#ddd; transition: 0.3s;">★</span>
+                <span class="star-btn" data-value="2" onclick="updateRating(2)" style="cursor:pointer; color:#ddd; transition: 0.3s;">★</span>
+                <span class="star-btn" data-value="3" onclick="updateRating(3)" style="cursor:pointer; color:#ddd; transition: 0.3s;">★</span>
+                <span class="star-btn" data-value="4" onclick="updateRating(4)" style="cursor:pointer; color:#ddd; transition: 0.3s;">★</span>
+                <span class="star-btn" data-value="5" onclick="updateRating(5)" style="cursor:pointer; color:#ddd; transition: 0.3s;">★</span>
+            </div>
+            <p id="rating-text" style="color:#64748b; font-size:0.9rem; margin-top:5px;">Select stars</p>
+        </div>
+
+        <input type="text" id="rev-name" placeholder="Your Name" style="width:100%; padding:12px; margin-bottom:15px; border:2px solid #eee; border-radius:10px;">
+        <textarea id="rev-msg" placeholder="Write your review here..." style="width:100%; height:100px; padding:12px; margin-bottom:15px; border:2px solid #eee; border-radius:10px;"></textarea>
+
+        <div style="background:#f1f5f9; padding:15px; border-radius:10px; margin-bottom:15px;">
+            <label style="font-size:0.8rem; color:#475569; display:block; margin-bottom:8px;">Add a Photo (Optional)</label>
+            <input type="file" id="rev-file" accept="image/*" style="width:100%;">
+        </div>
+
+        <button onclick="postNewReview()" style="width:100%; background:#27ae60; color:white; padding:15px; border:none; border-radius:12px; font-weight:bold; cursor:pointer;">
+            Submit My Review
+        </button>
+
+        <hr style="margin: 30px 0; border:0; border-top:1px solid #eee;">
+        
+        <div id="reviews-wall"></div>
+    </div>
+</div>
+
+<div id="past-papers-tab" class="tab-content">
+    <div class="content-card">
+        <h2 style="text-align: center; color: #2c3e50;">Past Papers Collection</h2>
+        <div class="papers-list">
+            <a href="view-paper.html?year=2015" target="_blank">2015 Paper</a>
+            <a href="view-paper.html?year=2016" target="_blank">2016 Paper</a>
+            <a href="view-paper.html?year=2017" target="_blank">2017 Paper</a>
+            <a href="view-paper.html?year=2018" target="_blank">2018 Paper</a>
+            <a href="view-paper.html?year=2019" target="_blank">2019 Paper</a>
+            <a href="view-paper.html?year=2020" target="_blank">2020 Paper</a>
+            <a href="view-paper.html?year=2021" target="_blank">2021 Paper</a>
+            <a href="view-paper.html?year=2022" target="_blank">2022 Paper</a>
+            <a href="view-paper.html?year=2023" target="_blank">2023 Paper</a>
+            <a href="view-paper.html?year=2024" target="_blank">2024 Paper</a>
+            <a href="view-paper.html?year=2025" target="_blank">2025 Paper</a>
+        </div>
+    </div>
+</div>
+
+<div id="weekly-papers-tab" class="tab-content">
+    <div class="content-card">
+        <h2 style="text-align: center; color: #2c3e50;">Weekly Assessment Papers</h2>
+        <div class="papers-list">
+            <a href="view-week.html?file=week1.pdf&title=Week 01 Paper">Week 01</a>
+            <a href="view-week.html?file=week2.pdf&title=Week 02 Paper">Week 02</a>
+            <a href="view-week.html?file=week3.pdf&title=Week 03 Paper">Week 03</a>
+            <a href="view-week.html?file=week4.pdf&title=Week 04 Paper">Week 04</a>
+            <a href="view-week.html?file=week5.pdf&title=Week 05 Paper">Week 05</a>
+            <a href="view-week.html?file=week6.pdf&title=Week 06 Paper">Week 06</a>
+            <a href="view-week.html?file=week7.pdf&title=Week 07 Paper">Week 07</a>
+            <a href="view-week.html?file=week8.pdf&title=Week 08 Paper">Week 08</a>
+            <a href="view-week.html?file=week9.pdf&title=Week 09 Paper">Week 09</a>
+            <a href="view-week.html?file=week10.pdf&title=Week 10 Paper">Week 10</a>
+            <a href="view-week.html?file=week11.pdf&title=Week 11 Paper">Week 11</a>
+            <a href="view-week.html?file=week12.pdf&title=Week 12 Paper">Week 12</a>
+            <a href="view-week.html?file=week13.pdf&title=Week 13 Paper">Week 13</a>
+            <a href="view-week.html?file=week14.pdf&title=Week 14 Paper">Week 14</a>
+            <a href="view-week.html?file=week15.pdf&title=Week 15 Paper">Week 15</a>
+          </div>
+    </div>
+</div>
+
+
+<div id="help-tab" class="tab-content">
+    <div style="max-width: 450px; margin: 20px auto; height: 550px; display: flex; flex-direction: column; background: #ffffff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; border: 1px solid #e2e8f0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+        
+        <div style="background: #0f172a; color: white; padding: 15px; text-align: center; border-bottom: 4px solid #3498db;">
+            <h3 style="margin: 0; font-size: 1.1rem; letter-spacing: 1px;">Chat Bot</h3>
+            <span style="font-size: 0.7rem; color: #10b981; font-weight: bold;">● SYSTEM ACTIVE</span>
+        </div>
+
+        <div id="chat-box" style="flex: 1; overflow-y: auto; padding: 20px; background: #f8fafc; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth;">
+            <div style="background: white; padding: 12px 16px; border-radius: 15px 15px 15px 5px; align-self: flex-start; max-width: 85%; box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-size: 0.9rem; border: 1px solid #edf2f7; color: #334155; line-height: 1.4;">
+                ආයුබෝවන්! මම **Chat bot**. ඔයාට පෝටල් එකේ වැඩ වලට හෝ ICT පාඩම් වලට මගෙන් උදව් ගන්න පුළුවන්. මොකක්ද දැනගන්න ඕනේ?
+            </div>
+        </div>
+
+        <div style="padding: 15px; background: white; border-top: 1px solid #eee; display: flex; gap: 8px;">
+            <input type="text" id="bot-input" placeholder="Type a message..." 
+                   style="flex: 1; padding: 12px 15px; border: 2px solid #e2e8f0; border-radius: 10px; outline: none; font-size: 0.9rem; transition: 0.3s;"
+                   onfocus="this.style.borderColor='#3498db'" onblur="this.style.borderColor='#e2e8f0'">
+            
+            <button id="send-btn" 
+                    style="background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 0.9rem; transition: 0.2s;"
+                    onmouseover="this.style.background='#2980b9'" onmouseout="this.style.background='#3498db'">
+                Send
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
